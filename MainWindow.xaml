@@ -60,24 +60,42 @@
                     Margin="0,0,0,10"
                     Grid.Row="0">
 
-            <Button Content="📜  Chat History"
+            <Button Content=" Chat History"
                     Style="{StaticResource TopButton}"
                     Background="#1E3A5F"
                     Foreground="#A0BFE0"
                     Click="BtnChatbot_Click"/>
 
             <Button x:Name="BtnHelp"
-                    Content="❓  Help"
+                    Content="  Help"
                     Style="{StaticResource TopButton}"
                     Background="#1C2E4A"
                     Foreground="#A0BFE0"
                     Click="BtnHelp_Click"/>
 
-            <Button Content="🗑  Clear Chat"
+            <Button Content=" Clear Chat"
                     Style="{StaticResource TopButton}"
                     Background="#2C1A1A"
                     Foreground="#E57373"
                     Click="BtnClear_Click"/>
+
+            <Button Content=" View Tasks"
+                    Style="{StaticResource TopButton}"
+                    Background="#1A2C1A"
+                    Foreground="#81C784"
+                    Click="BtnViewTasks_Click"/>
+
+            <Button Content=" Start Quiz"
+                    Style="{StaticResource TopButton}"
+                    Background="#2C1A3A"
+                    Foreground="#CE93D8"
+                    Click="BtnStartQuiz_Click"/>
+
+            <Button Content=" Activity Log"
+                    Style="{StaticResource TopButton}"
+                    Background="#1A2A2C"
+                    Foreground="#80CBC4"
+                    Click="BtnActivityLog_Click"/>
 
         </StackPanel>
 
@@ -95,7 +113,7 @@
                 </LinearGradientBrush>
             </Border.Background>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="🛡   CYBERSECURITY AWARENESS BOT   🛡"
+                <TextBlock Text="  CYBERSECURITY AWARENESS BOT  "
                            FontFamily="Segoe UI"
                            FontSize="20"
                            FontWeight="Bold"
@@ -172,30 +190,30 @@
                                    FontSize="11"
                                    Margin="0,0,0,8"/>
 
-                        <Button Content="🎣   Phishing"
+                        <Button Content="             Phishing"
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="phishing"/>
-                        <Button Content="🔑   Passwords"
+                        <Button Content="             Passwords"
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="password"/>
-                        <Button Content="🕵   Online Scams"
+                        <Button Content="            Online Scams   "
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="scam"/>
-                        <Button Content="🔒   Privacy"
+                        <Button Content="               Privacy"
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="privacy"/>
-                        <Button Content="🌐   Cybersecurity"
+                        <Button Content="            Cybersecurity"
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="cybersecurity"/>
 
                         <Rectangle Height="1" Fill="#1E3A5F" Margin="0,12"/>
 
-                        <!-- FAVORITE TOPICS SECTION ADDED -->
+                        <!-- FAVORITE TOPICS -->
                         <TextBlock Text="⭐  MY FAVORITE TOPICS"
                                    Foreground="#FFD700"
                                    FontFamily="Segoe UI"
@@ -218,7 +236,7 @@
                                                FontFamily="Segoe UI"
                                                Margin="0,5"/>
                                 </StackPanel>
-                                <Button Content="📌  Save Current Interest"
+                                <Button Content="  Save Current Interest"
                                         Background="#1E3A5F"
                                         Foreground="#FFD700"
                                         FontSize="11"
@@ -227,7 +245,7 @@
                                         Cursor="Hand"
                                         BorderThickness="0"
                                         Click="SaveCurrentInterest_Click"/>
-                                <Button Content="🗑  Clear Favorites"
+                                <Button Content=" Clear Favorites"
                                         Background="#2C1A1A"
                                         Foreground="#E57373"
                                         FontSize="11"
@@ -248,15 +266,15 @@
                                    FontSize="11"
                                    Margin="0,0,0,8"/>
 
-                        <Button Content="💡   Another Tip"
+                        <Button Content="   Another Tip"
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="another tip"/>
-                        <Button Content="📖   Tell Me More"
+                        <Button Content="  Tell Me More"
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="tell me more"/>
-                        <Button Content="🔁   Remind Me"
+                        <Button Content="  Remind Me"
                                 Style="{StaticResource SidePanelButton}"
                                 Click="QuickTopic_Click"
                                 Tag="remind me"/>
@@ -273,8 +291,9 @@
                         <TextBlock Text="✔  Keyword Recognition" Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
                         <TextBlock Text="✔  Sentiment Detection"  Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
                         <TextBlock Text="✔  Memory &amp; Recall"  Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
-                        <TextBlock Text="✔  Conversation Flow"    Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
-                        <TextBlock Text="✔  Follow-up Questions"  Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
+                        <TextBlock Text="✔  Task Management"      Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
+                        <TextBlock Text="✔  Quiz Mini-Game"       Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
+                        <TextBlock Text="✔  Activity Log"         Foreground="#4A7FAF" FontSize="12" FontFamily="Segoe UI" Margin="0,3"/>
 
                     </StackPanel>
                 </ScrollViewer>
@@ -304,6 +323,7 @@
                          BorderBrush="#1E3A5F"
                          BorderThickness="1"
                          Padding="12,8"
+                         KeyDown="UserInput_KeyDown"
                          VerticalContentAlignment="Center"/>
 
                 <Button Content="➤  SEND"

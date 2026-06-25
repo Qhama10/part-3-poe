@@ -298,7 +298,7 @@ namespace WpfApp2
                 {
                     SaveTaskToDb(pendingTaskTitle, pendingTaskDescription, null);
                     LogActivity($"Task added: '{pendingTaskTitle}' (no reminder)");
-                    Say($"Bot: ✅ Task '{pendingTaskTitle}' saved with no reminder.");
+                    Say($"Bot: Task '{pendingTaskTitle}' saved with no reminder.");
                     pendingTaskTitle = pendingTaskDescription = "";
                 }
                 return;
@@ -737,9 +737,7 @@ namespace WpfApp2
             LogActivity($"Quiz completed — Score: {quizScore}/{total} ({pct:F0}%)");
         }
 
-        // ══════════════════════════════════════════
-        //  TASK 4 — ACTIVITY LOG
-        // ══════════════════════════════════════════
+        
         private void LogActivity(string action)
         {
             string entry = $"[{DateTime.Now:HH:mm:ss}] {action}";
@@ -841,7 +839,7 @@ namespace WpfApp2
                 {
                     if (!string.IsNullOrEmpty(favouriteTopic))
                     {
-                        Say($"Bot: Based on our conversation, you're interested in {favouriteTopic}. 🔍");
+                        Say($"Bot: Based on our conversation, you're interested in {favouriteTopic}. ");
                         Say($"Bot: {GetPersonalizedFollowUp(favouriteTopic)}");
                     }
                     else
@@ -888,7 +886,7 @@ namespace WpfApp2
 
                 if (input.Contains("how are you"))
                 {
-                    Say("Bot: I'm doing well 😊");
+                    Say("Bot: I'm doing well, thank you. ");
                     Say("Bot: How are you feeling today?");
                     waitingForEmotion = true;
                     return;
@@ -902,26 +900,26 @@ namespace WpfApp2
 
                 if (input.Contains("thank"))
                 {
-                    Say("Bot: You're welcome! Stay safe online 😊");
+                    Say("Bot: You are welcome! Stay safe online ");
                     return;
                 }
 
                 if (input.Contains("hello") || input.Contains("hi ") || input.StartsWith("hi") || input.Contains("hey"))
                 {
-                    Say($"Bot: Hello{(string.IsNullOrEmpty(userName) ? "" : " " + userName)}! 😊 How can I help you today?");
+                    Say($"Bot: Hello{(string.IsNullOrEmpty(userName) ? "" : " " + userName)}! How can I help you today?");
                     return;
                 }
 
                 // Fallback with helpful suggestions
                 Say("Bot: I'm not sure I understood that. Here are some things you can try:");
-                Say("Bot: 💬 Ask about: phishing, passwords, scams, privacy, cybersecurity");
-                Say("Bot: 📋 Say: 'add task', 'view tasks', 'complete task', 'delete task'");
-                Say("Bot: 🎮 Say: 'start quiz'");
-                Say("Bot: 📊 Say: 'show activity log'");
+                Say("Bot:  Ask about: phishing, passwords, scams, privacy, cybersecurity");
+                Say("Bot: 'add task', 'view tasks', 'complete task', 'delete task'");
+                Say("Bot: 'start quiz'");
+                Say("Bot: 'show activity log'");
             }
             catch
             {
-                Say("Bot: Something went wrong 😅 Please try again.");
+                Say("Bot: Something went wrong ,please try again.");
             }
         }
 
@@ -932,9 +930,9 @@ namespace WpfApp2
             return -1;
         }
 
-        // ══════════════════════════════════════════
-        //  FOLLOW-UP DETECTION
-        // ══════════════════════════════════════════
+      // responsible for doing a follow-up on
+
+
         private bool IsFollowUp(string input)
         {
             return input.Contains("another tip") || input.Contains("tell me more") ||
@@ -953,19 +951,17 @@ namespace WpfApp2
             }
         }
 
-        // ══════════════════════════════════════════
-        //  EMOTION HANDLING
-        // ══════════════════════════════════════════
+        // responsible for handling users emotions 
         private bool DetectEmotion(string input)
         {
             if (input.Contains("worried") || input.Contains("nervous") || input.Contains("scared"))
             {
-                Say("Bot: I understand you're worried. Let's work through it together. 💙");
+                Say("Bot: I understand you're worried. Let's work through it together. ");
                 return true;
             }
             if (input.Contains("curious"))
             {
-                Say("Bot: I love your curiosity! 😊 That's the best way to stay safe online.");
+                Say("Bot: I love your curiosity!  That's the best way to stay safe online.");
                 return true;
             }
             if (input.Contains("frustrated") || input.Contains("confused") || input.Contains("lost"))
@@ -976,7 +972,7 @@ namespace WpfApp2
             return false;
         }
 
-        private void HandleEmotionReply(string input)
+        private void HandleEmotionReply(string input) // the replies it gives based on what the user resposd with. Whether good or bad responses.
         {
             if (input.Contains("worried") || input.Contains("nervous") || input.Contains("scared"))
             {
@@ -985,7 +981,7 @@ namespace WpfApp2
             }
             else if (input.Contains("happy") || input.Contains("good") || input.Contains("great") || input.Contains("fine"))
             {
-                Say("Bot: That's awesome! 😊 What cybersecurity topic would you like to explore?");
+                Say("Bot: That's awesome! What cybersecurity topic would you like to explore?");
             }
             else if (input.Contains("frustrated") || input.Contains("confused"))
             {
@@ -994,13 +990,11 @@ namespace WpfApp2
             }
             else
             {
-                Say("Bot: Thanks for sharing! 😊 What can I help you with today?");
+                Say("Bot: Thank you for sharing! What can I help you with today?");
             }
         }
 
-        // ══════════════════════════════════════════
-        //  HELPER METHODS
-        // ══════════════════════════════════════════
+        // This below is gives response if user only replies with one word 
         private string GetPersonalizedFollowUp(string topic)
         {
             string t = topic.ToLower();
@@ -1012,6 +1006,7 @@ namespace WpfApp2
             return "Would you like more tips about " + topic + "?";
         }
 
+        // gives response if user use abbreviation instead of the full word 
         private string GetMatchingTopic(string text)
         {
             string lower = text.ToLower();
@@ -1023,9 +1018,7 @@ namespace WpfApp2
             return "";
         }
 
-        // ══════════════════════════════════════════
-        //  QUICK TOPICS (SIDE PANEL)
-        // ══════════════════════════════════════════
+       
         private void QuickTopic_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
@@ -1036,9 +1029,7 @@ namespace WpfApp2
             SendButton_Click(sender, e);
         }
 
-        // ══════════════════════════════════════════
-        //  TOP BUTTON HANDLERS
-        // ══════════════════════════════════════════
+       // responsible for handling the buttons 
         private void BtnViewTasks_Click(object sender, RoutedEventArgs e) => ShowTasks();
         private void BtnStartQuiz_Click(object sender, RoutedEventArgs e) => StartQuiz();
         private void BtnActivityLog_Click(object sender, RoutedEventArgs e) => ShowActivityLog();
@@ -1048,7 +1039,7 @@ namespace WpfApp2
             ChatHistory.Items.Clear();
             chatLog.Clear();
             try { if (File.Exists(historyFile)) File.Delete(historyFile); } catch { }
-            Say("Bot: Chat history cleared 😊");
+            Say("Bot: Your chat history is all cleared up.");
         }
 
         private void BtnChatbot_Click(object sender, RoutedEventArgs e)
@@ -1059,30 +1050,28 @@ namespace WpfApp2
             ChatHistory.ScrollIntoView(ChatHistory.Items[ChatHistory.Items.Count - 1]);
         }
 
-        private void BtnHelp_Click(object sender, RoutedEventArgs e)
+        private void BtnHelp_Click(object sender, RoutedEventArgs e)// when user asks for help the following will be displayed 
         {
             Say("Bot: ─────── HOW I CAN HELP ───────");
-            Say("Bot: 🔐 Topics: phishing, passwords, scams, privacy, cybersecurity");
-            Say("Bot: 📋 Tasks:  'add task', 'view tasks', 'complete task [id]', 'delete task [id]'");
-            Say("Bot: ⏰ Reminders: 'show reminders'");
-            Say("Bot: 🎮 Quiz:   'start quiz'");
-            Say("Bot: 📊 Log:    'show activity log'");
-            Say("Bot: 💾 Memory: 'I'm interested in [topic]'");
-            Say("Bot: 🔍 Recall: 'remind me what I'm interested in'");
+            Say("Bot: Topics: phishing, passwords, scams, privacy, cybersecurity");
+            Say("Bot: Tasks:  'add task', 'view tasks', 'complete task [id]', 'delete task [id]'");
+            Say("Bot: Reminders: 'show reminders'");
+            Say("Bot: Quiz:   'start quiz'");
+            Say("Bot: Log:    'show activity log'");
+            Say("Bot: Memory: 'I'm interested in [topic]'");
+            Say("Bot: Recall: 'remind me what I'm interested in'");
             Say("Bot: ──────────────────────────────");
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Say(!string.IsNullOrEmpty(userName)
-                ? $"Bot: Goodbye, {userName}! Stay safe online 😊"
-                : "Bot: Goodbye! Stay safe online 😊");
+                ? $"Bot: Goodbye, {userName}! Have a lovely day and stay safe. "
+                : "Bot: Goodbye! Have a lovely day and stay safe. ");
             Application.Current.Shutdown();
         }
 
-        // ══════════════════════════════════════════
-        //  SAY METHOD
-        // ══════════════════════════════════════════
+        // commands the chatbot on what to say to the user 
         private void Say(string msg)
         {
             ChatHistory.Items.Add(msg);
@@ -1092,9 +1081,7 @@ namespace WpfApp2
                 ChatHistory.ScrollIntoView(ChatHistory.Items[ChatHistory.Items.Count - 1]);
         }
 
-        // ══════════════════════════════════════════
-        //  FILE METHODS (unchanged from Part 1 & 2)
-        // ══════════════════════════════════════════
+        // unchange part 1 and 2 
         private void SaveChatToFile(string msg)
         {
             try { File.AppendAllText(historyFile, msg + Environment.NewLine); } catch { }
@@ -1299,15 +1286,13 @@ namespace WpfApp2
                 favoriteTopics.Clear();
                 SaveFavorites();
                 UpdateFavoritesDisplay();
-                Say("Bot: 🗑 Cleared all your favorite topics.");
+                Say("Bot:  Cleared all your favorite topics.");
             }
         }
     }
 
-    // ══════════════════════════════════════════
-    //  SUPPORTING CLASSES
-    // ══════════════════════════════════════════
-    public class QuizQuestion
+  // here are the supporting classes 
+    public class QuizQuestion // makes use of get and set so that it will actually get the user info and set it.
     {
         public string Question { get; set; }
         public string[] Options { get; set; }
