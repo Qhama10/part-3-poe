@@ -38,10 +38,20 @@ namespace WpfApp2
         private string pendingTaskTitle = "";
         private string pendingTaskDescription = "";
 
+        // quiz flow 
+        private bool inQuiz = false;
+        private int quizIndex = 0;
+        private int quizScore = 0;
+        private bool waitingForAnswer = false;
+
+        // for the activity log 
+        private List<string> activityLog = new List<string>();
+
+
         private List<string> chatLog = new List<string>();
         private List<FavoriteTopic> favoriteTopics = new List<FavoriteTopic>();
 
-        // ---------------- TIP DATA ----------------
+        // data for the tips 
         private string[] phishingTips =
         {
             "Never click suspicious links in emails — hover over them first to check the real URL.",
@@ -87,9 +97,83 @@ namespace WpfApp2
             "Private browsers can help reduce tracking."
         };
 
-        private Dictionary<string, string[]> topicTips;
+        // questions for the quiz 
+        private List<QuizQuestion> quizQuestions = new List<QuizQuestion>
+        {
+           new QuizQuestion(
+                "What should you do if you receive an email asking for your password?",
+                new[] { "A) Reply with your password", "B) Delete the email", "C) Report it as phishing", "D) Ignore it" },
+                "C",
+                "Correct! Reporting phishing emails helps prevent scams and protects others."),
 
-        // ---------------- CONSTRUCTOR ----------------
+            new QuizQuestion(
+                "True or False: Using the same password for multiple accounts is safe.",
+                new[] { "A) True", "B) False" },
+                "B",
+                "False! Reusing passwords means one breach can compromise all your accounts."),
+
+            new QuizQuestion(
+                "What does 2FA stand for?",
+                new[] { "A) Two-Factor Authentication", "B) Two-File Access", "C) Twice-Failed Attempt", "D) Two-Firewall Antivirus" },
+                "A",
+                "Correct! Two-Factor Authentication adds an extra layer of security beyond just a password."),
+
+            new QuizQuestion(
+                "Which of these is the strongest password?",
+                new[] { "A) password123", "B) John1990", "C) Tr0ub4dor&3!", "D) 12345678" },
+                "C",
+                "Correct! A mix of uppercase, lowercase, numbers and symbols makes passwords much harder to crack."),
+
+            new QuizQuestion(
+                "True or False: Public Wi-Fi is always safe to use for banking.",
+                new[] { "A) True", "B) False" },
+                "B",
+                "False! Public Wi-Fi can be intercepted. Always use a VPN or mobile data for banking."),
+
+            new QuizQuestion(
+                "What is phishing?",
+                new[] { "A) A type of malware", "B) Tricking users into revealing info via fake messages", "C) A firewall technique", "D) Encrypting your data" },
+                "B",
+                "Correct! Phishing uses deceptive emails or messages to steal personal information."),
+
+            new QuizQuestion(
+                "Which is safest when downloading software?",
+                new[] { "A) Any website", "B) Email attachments", "C) Official developer websites", "D) Torrent sites" },
+                "C",
+                "Correct! Always download software from official sources to avoid malware."),
+
+            new QuizQuestion(
+                "True or False: Antivirus software alone is enough to protect you online.",
+                new[] { "A) True", "B) False" },
+                "B",
+                "False! Antivirus is important but you also need good habits like strong passwords and software updates."),
+
+            new QuizQuestion(
+                "What should you do before clicking a link in an email?",
+                new[] { "A) Click it immediately", "B) Hover over it to check the real URL", "C) Forward it to friends", "D) Reply to ask if it is real" },
+                "B",
+                "Correct! Hovering over a link reveals its true destination before you click."),
+
+            new QuizQuestion(
+                "True or False: It is safe to share your password with a trusted friend.",
+                new[] { "A) True", "B) False" },
+                "B",
+                "False! You should never share passwords — even with people you trust."),
+
+            new QuizQuestion(
+                "What does a VPN do?",
+                new[] { "A) Speeds up your internet", "B) Encrypts your internet connection for privacy", "C) Removes viruses", "D) Blocks all ads" },
+                "B",
+                "Correct! A VPN encrypts your traffic and hides your IP address for safer browsing."),
+
+            new QuizQuestion(
+                "Which of these is a sign of a phishing email?",
+                new[] { "A) Comes from your bank's official domain", "B) Has your full name and account details", "C) Creates urgency and asks you to click a link now", "D) Has no attachments" },
+                "C",
+                "Correct! Urgency and suspicious links are classic phishing tactics.")
+        };
+
+        // constructor 
         public MainWindow()
         {
             InitializeComponent();
@@ -104,9 +188,37 @@ namespace WpfApp2
             };
 
             Audio.PlayGreeting();
+            InitialiseDatabase();
         }
 
-        // ---------------- WINDOW LOADED ----------------
+        // databse init 
+        private void InitialiseDatabase()
+        {
+            try
+            {
+                using (var conn = db.GetConnection())
+             }
+               conn.Open();
+            string sql = @"CREATE TABLE IF NOT EXISTS tasks (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        title VARCHAR(255) NOT NULL,
+                        description TEXT,
+                        reminder_date DATETIME,
+                        is_completed BOOLEAN DEFAULT FALSE,
+                        date_created DATETIME DEFAULT CURRENT_TIMESTAMP
+                    );";
+            new MySqlCommand(sql, conn).ExecuteNonQuery();
+        }
+    }
+        catch (Exception ex)
+            {
+                MessageBox.Show("DB connection failed: " + ex.Message +
+                    "\n\nCheck your password in DatabaseHelper.cs.", "Database Error");
+            }
+        }
+
+
+        // window loader 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadChatHistory();
