@@ -248,6 +248,7 @@ namespace WpfApp2
             // ── Name collection ──
             if (waitingForName)
             {
+                // say is a method helper so that theres no need to write the code over and ovver again.
                 userName = input;
                 waitingForName = false;
                 Say($"Bot: Nice to meet you, {userName}! ");
@@ -279,8 +280,8 @@ namespace WpfApp2
             if (waitingForTaskDescription)
             {
                 pendingTaskDescription = input;
-                waitingForTaskDescription = false;
-                waitingForReminder = true;
+                waitingForTaskDescription = false;// false because the user already has put a description 
+                waitingForReminder = true;// true so there can be conversation flow and so it can display message asking the user if they need a reminder 
                 Say("Bot: Got it! Would you like a reminder for this task? (yes / no)");
                 return;
             }
@@ -419,7 +420,7 @@ namespace WpfApp2
         private void StartAddTask(string input)
         {
             
-            string title = ExtractTaskTitle(input);
+            string title = ExtractTaskTitle(input);// checks if user has included a title 
 
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -483,7 +484,7 @@ namespace WpfApp2
                     conn.Open();
                     string sql = "INSERT INTO tasks (title, description, reminder_date) VALUES (@t, @d, @r)";
                     var cmd = new MySqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@t", title);
+                    cmd.Parameters.AddWithValue("@t", title);// paramters- replace placeholders with actual values 
                     cmd.Parameters.AddWithValue("@d", description);
                     cmd.Parameters.AddWithValue("@r", reminderDate.HasValue ? (object)reminderDate.Value : DBNull.Value);
                     cmd.ExecuteNonQuery();
